@@ -1,0 +1,21 @@
+[build-system]
+requires = [setuptools]
+build-backend = "setuptools.build_meta"
+
+[project]
+version = "0.0.1"
+name = "decolog"
+description = "A simple log class usable as decorator"
+requires-python = ">= 3.12"
+authors = [
+	{ name = "Cyril Quijoux" }
+]
+readme = "README.md"
+keywords = ["log", "decorator"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "double"
+
