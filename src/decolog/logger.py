@@ -13,17 +13,21 @@ class Logger:
         console_handler_level: int = logging.DEBUG,
         file_handler_level: int = logging.DEBUG,
     ):
-        """
-        Initialize the logger class
-        :param str app_name: the application or process name
-        :param str dir_path: the directory path where the log will be saved
-        :param int log_level: level of the log according to the logging package (INFO, 
-        DEBUG, CRITICAL, ...)
-        :param int console_handler_level: level of the console handler logs 
-        according to the logging package
-        :param int file_handler_level: level of the file handler logs 
-        according to the logging package
-        :return: None
+        """Initialize the logger class
+
+        Args:
+            app_name (str): the application or process name
+            dir_path (str): the directory path where the log will be saved
+        log_level (int): level of the log according to the logging package (INFO, 
+            DEBUG, CRITICAL, ...)
+        console_handler_level (int): level of the console handler logs 
+            according to the logging package
+        file_handler_level (int): level of the file handler logs 
+            according to the logging package
+        
+        Returns:
+            None
+
         """
 
         self.app_name = app_name
