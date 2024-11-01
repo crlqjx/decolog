@@ -44,6 +44,9 @@ class Logger:
         console_handler.setFormatter(formatter)
         self.log.addHandler(console_handler)
 
+        # Create folder
+        os.makedirs(dir_path, exist_ok=True)
+
         file_handler = logging.FileHandler(
             os.path.join(
                 dir_path, f'{self.app_name.lower()}_{dt.date.today().strftime("%Y%m%d")}.log'
