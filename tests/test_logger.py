@@ -1,14 +1,13 @@
 import os
 import datetime as dt
 import shutil
-from src.decolog.logger import Logger
-
+from decolog.logger import Logger
 
 
 def test_logger(caplog):
     logger = Logger(
-        app_name = 'TEST',
-        dir_path = os.path.join(os.path.abspath('.'), 'tests')
+        app_name='TEST',
+        dir_path=os.path.join(os.path.abspath('.'), 'tests')
     )
 
     text_to_log = 'hello world'
@@ -26,13 +25,14 @@ def test_logger(caplog):
     assert text_to_log in line
     assert 'INFO' in line
 
+
 def test_folder_creation():
 
     dir_path = os.path.join(os.path.abspath('.'), "tests")
-    
+
     logger = Logger(
-        app_name = 'TEST',
-        dir_path = os.path.join(dir_path, "log_folder")
+        app_name='TEST',
+        dir_path=os.path.join(dir_path, "log_folder")
     )
 
     assert "log_folder" in os.listdir(dir_path)
