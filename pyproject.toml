@@ -3,15 +3,21 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-version = "0.0.2"
+version = "0.0.3"
 name = "decolog"
-description = "A simple log class usable as decorator"
+description = "A simple logger usable as decorator"
 requires-python = ">= 3.11"
 authors = [
-	{ name = "crlqjx" }
+	{ name = "Cyril Quijoux" }
 ]
 readme = "README.md"
 keywords = ["log", "decorator"]
+classifiers = [
+	"Programming Language :: Python :: 3",
+	]
+
+[project.urls]
+Homepage = "https://github.com/crlqjx/decolog/"
 
 [tool.ruff]
 line-length = 88

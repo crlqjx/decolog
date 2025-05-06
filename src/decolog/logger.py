@@ -18,16 +18,15 @@ class Logger:
         Args:
             app_name (str): the application or process name
             dir_path (str): the directory path where the log will be saved
-        log_level (int): level of the log according to the logging package (INFO, 
-            DEBUG, CRITICAL, ...)
-        console_handler_level (int): level of the console handler logs 
+        log_level (int): level of the log according to the logging package (
+                INFO, DEBUG, CRITICAL, ...)
+        console_handler_level (int): level of the console handler logs
             according to the logging package
-        file_handler_level (int): level of the file handler logs 
+        file_handler_level (int): level of the file handler logs
             according to the logging package
-        
+
         Returns:
             None
-
         """
 
         self.app_name = app_name
@@ -67,7 +66,8 @@ class Logger:
                 timer_end = dt.datetime.now()
                 timer = timer_end - timer_start
                 log_message = (
-                    f"executed {func.__name__} in {round(timer.total_seconds(), 2)} "
+                    f"executed {func.__name__} "
+                    f"in {round(timer.total_seconds(), 4)} "
                     f"seconds with following arguments : {args}"
                 )
                 self.log.debug(log_message)
@@ -76,4 +76,4 @@ class Logger:
                 self.log.critical(f"Exception {type(e)}: {str(e)}")
                 raise e
 
-            return with_logging
+        return with_logging
