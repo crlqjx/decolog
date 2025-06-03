@@ -3,12 +3,14 @@ import logging
 import functools
 import datetime as dt
 
+from pathlib import Path
+
 
 class Logger:
     def __init__(
         self,
         app_name: str,
-        dir_path: str,
+        dir_path: str | Path,
         log_level: int = logging.DEBUG,
         console_handler_level: int = logging.DEBUG,
         file_handler_level: int = logging.DEBUG,
@@ -68,7 +70,7 @@ class Logger:
                 log_message = (
                     f"executed {func.__name__} "
                     f"in {round(timer.total_seconds(), 4)} "
-                    f"seconds with following arguments : {args}"
+                    f"seconds with args : {args}"
                 )
                 self.log.debug(log_message)
                 return result
