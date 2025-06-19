@@ -4,6 +4,18 @@ import shutil
 from decolog.logger import Logger
 
 
+test_logger = Logger(
+    app_name='TEST',
+    dir_path=os.path.join(os.path.abspath('.'), 'tests')
+)
+
+
+@test_logger
+def foo(a, b):
+
+    return "end of foo"
+
+
 def test_logger(caplog):
     logger = Logger(
         app_name='TEST',
@@ -24,6 +36,12 @@ def test_logger(caplog):
     assert logger.app_name in line
     assert text_to_log in line
     assert 'INFO' in line
+
+
+def test_log_function(caplog):
+    foo("arg a", b='second')
+
+    assert "foo(*('arg a',), **{'b': 'second'})" in caplog.text
 
 
 def test_folder_creation():

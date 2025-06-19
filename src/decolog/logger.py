@@ -62,15 +62,20 @@ class Logger:
         @functools.wraps(func)
         def with_logging(*args, **kwargs):
             try:
-                self.log.debug(f"{func.__name__} - {args}")
+                title = f"{func.__name__}("
+                if args:
+                    title = f"{title}*{args}, "
+                if kwargs:
+                    title = f"{title}**{kwargs}"
+                title = f"{title})"
+                self.log.debug(title)
                 timer_start = dt.datetime.now()
                 result = func(*args, **kwargs)
                 timer_end = dt.datetime.now()
                 timer = timer_end - timer_start
                 log_message = (
-                    f"executed {func.__name__} "
-                    f"in {round(timer.total_seconds(), 4)} "
-                    f"seconds with args : {args}"
+                    f"executed {title} "
+                    f"in {round(timer.total_seconds(), 4)} seconds"
                 )
                 self.log.debug(log_message)
                 return result
