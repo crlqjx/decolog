@@ -4,6 +4,7 @@ import functools
 import datetime as dt
 
 from pathlib import Path
+from reprlib import repr
 
 
 class Logger:
@@ -14,6 +15,7 @@ class Logger:
         log_level: int = logging.DEBUG,
         console_handler_level: int = logging.DEBUG,
         file_handler_level: int = logging.DEBUG,
+        is_verbose=False,
     ):
         """Initialize the logger class
 
@@ -26,6 +28,8 @@ class Logger:
             according to the logging package
         file_handler_level (int): level of the file handler logs
             according to the logging package
+        is_verbose (bool): if set to False, function arguments will be truncated
+        in the logs
 
         Returns:
             None
@@ -34,6 +38,7 @@ class Logger:
         self.app_name = app_name
         self.log = logging.getLogger(app_name)
         self.log.setLevel(console_handler_level)
+        self.is_verbose = is_verbose
 
         formatter = logging.Formatter(
             fmt="%(asctime)s|%(name)s|%(levelname)s:%(message)s",
@@ -50,7 +55,8 @@ class Logger:
 
         file_handler = logging.FileHandler(
             os.path.join(
-                dir_path, f'{self.app_name.lower()}_{dt.date.today().strftime("%Y%m%d")}.log'
+                dir_path,
+                f"{self.app_name.lower()}_{dt.date.today().strftime('%Y%m%d')}.log",
             )
         )
 
@@ -64,9 +70,18 @@ class Logger:
             try:
                 title = f"{func.__name__}("
                 if args:
-                    title = f"{title}*{args}, "
+                    title = (
+                        f"{title}*{repr(args)}, "
+                        if self.is_verbose is False
+                        else f"{title}*{args}, "
+                    )
                 if kwargs:
-                    title = f"{title}**{kwargs}"
+                    title = (
+                        f"{title}**{repr(kwargs)}"
+                        if self.is_verbose is False
+                        else f"{title}**{kwargs}"
+                    )
+
                 title = f"{title})"
                 self.log.debug(title)
                 timer_start = dt.datetime.now()
@@ -74,8 +89,7 @@ class Logger:
                 timer_end = dt.datetime.now()
                 timer = timer_end - timer_start
                 log_message = (
-                    f"executed {title} "
-                    f"in {round(timer.total_seconds(), 4)} seconds"
+                    f"executed {title} in {round(timer.total_seconds(), 4)} seconds"
                 )
                 self.log.debug(log_message)
                 return result
