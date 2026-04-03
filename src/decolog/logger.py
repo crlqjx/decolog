@@ -15,7 +15,6 @@ class Logger:
         log_level: int = logging.DEBUG,
         console_handler_level: int = logging.DEBUG,
         file_handler_level: int = logging.DEBUG,
-        is_verbose=False,
     ):
         """Initialize the logger class
 
@@ -28,8 +27,6 @@ class Logger:
             according to the logging package
         file_handler_level (int): level of the file handler logs
             according to the logging package
-        is_verbose (bool): if set to False, function arguments will be truncated
-        in the logs
 
         Returns:
             None
@@ -38,7 +35,6 @@ class Logger:
         self.app_name = app_name
         self.log = logging.getLogger(app_name)
         self.log.setLevel(console_handler_level)
-        self.is_verbose = is_verbose
 
         formatter = logging.Formatter(
             fmt="%(asctime)s|%(name)s|%(levelname)s:%(message)s",
@@ -64,7 +60,13 @@ class Logger:
         file_handler.setFormatter(formatter)
         self.log.addHandler(file_handler)
 
-    def __call__(self, func):
+    def __call__(self, func=None, is_verbose=True):
+        # func is None when decorator is called with a parameter (ex: @logger(is_verbose=True)
+        if func is None:             
+
+            # Return a partial function that will be called with the actual function
+            return lambda f: self.__call__(f, is_verbose=is_verbose)
+        
         @functools.wraps(func)
         def with_logging(*args, **kwargs):
             try:
@@ -72,13 +74,13 @@ class Logger:
                 if args:
                     title = (
                         f"{title}*{repr(args)}, "
-                        if self.is_verbose is False
+                        if is_verbose is False
                         else f"{title}*{args}, "
                     )
                 if kwargs:
                     title = (
                         f"{title}**{repr(kwargs)}"
-                        if self.is_verbose is False
+                        if is_verbose is False
                         else f"{title}**{kwargs}"
                     )
 

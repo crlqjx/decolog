@@ -9,7 +9,7 @@ test_logger = Logger(
 )
 
 
-@test_logger
+@test_logger(is_verbose=False)
 def foo(a, b):
     return "end of foo"
 
@@ -95,44 +95,19 @@ def test_long_args_verbose(caplog):
     a = "1111111111111111111111111111111111111111111111"
     b = list(a)
 
-    verbose_logger = Logger(
+    logger = Logger(
         app_name="TEST",
         dir_path=os.path.join(os.path.abspath("."), "tests"),
-        is_verbose=True
+        # is_verbose=True
     )
+    
+    @logger
+    def foo(a, b):
+        return 'end'
 
-    breakpoint()
-
-    verbose_logger.log.info(f"{a} {b}")
+    foo(a, b)
 
     message = caplog.records[0].message
 
     assert message.count("...") == 0
 
-    b = {
-        0: "a",
-        1: "a",
-        2: "a",
-        3: "a",
-        4: "a",
-        5: "a",
-        6: "a",
-        7: "a",
-        8: "a",
-        9: "a",
-        10: "a",
-        11: "a",
-        12: "a",
-        13: "a",
-        14: "a",
-        15: "a",
-        16: "a",
-        18: "a",
-        19: "a",
-    }
-
-    verbose_logger.log.info(b)
-
-    message = caplog.records[-1].message
-
-    assert message.count("...") == 0
