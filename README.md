@@ -44,19 +44,19 @@ message = greet("World")    # Logs: function name, args, execution time
 Control whether function arguments are truncated in logs:
 
 ```python
-# Default: arguments are truncated (verbose=False)
-@logger
-def function1(x, y, z):
+# Default Full arguments shown (verbose=True)
+@logger(is_verbose=True)
+def function3(x, y, z):
     return x + y + z
 
-# Explicit verbose=False (same as default)
-@logger(is_verbose=False)
+# Explicit verbose=True (same as default)
+@logger(is_verbose=True)
 def function2(x, y, z):
     return x + y + z
 
-# Full arguments shown (verbose=True)
-@logger(is_verbose=True)
-def function3(x, y, z):
+# Arguments are truncated (verbose=False)
+@logger
+def function1(x, y, z):
     return x + y + z
 ```
 
@@ -86,8 +86,8 @@ Logger(
 ### Decorator Usage
 
 ```python
-@logger(is_verbose=False)  # Truncate function arguments in logs (default)
-@logger(is_verbose=True)   # Show full function arguments in logs
+@logger(is_verbose=True)   # Show full function arguments in logs (default)
+@logger(is_verbose=False)  # Truncate function arguments in logs 
 ```
 
 ## Log Format
